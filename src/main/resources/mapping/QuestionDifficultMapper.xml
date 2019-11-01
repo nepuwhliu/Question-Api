@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.api.dao.QuestionDifficultMapper" >
+  <resultMap id="BaseResultMap" type="com.example.api.entity.QuestionDifficult" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="question_difficult" property="questionDifficult" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, question_difficult
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from question_difficult
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from question_difficult
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.api.entity.QuestionDifficult" >
+    insert into question_difficult (id, question_difficult)
+    values (#{id,jdbcType=INTEGER}, #{questionDifficult,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.api.entity.QuestionDifficult" >
+    insert into question_difficult
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="questionDifficult != null" >
+        question_difficult,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="questionDifficult != null" >
+        #{questionDifficult,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.api.entity.QuestionDifficult" >
+    update question_difficult
+    <set >
+      <if test="questionDifficult != null" >
+        question_difficult = #{questionDifficult,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.api.entity.QuestionDifficult" >
+    update question_difficult
+    set question_difficult = #{questionDifficult,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

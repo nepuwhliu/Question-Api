@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.api.dao.UserRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.example.api.entity.UserRecord" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.example.api.entity.UserRecordWithBLOBs" extends="BaseResultMap" >
+    <result column="question_error" property="questionError" jdbcType="LONGVARCHAR" />
+    <result column="question_collect" property="questionCollect" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id
+  </sql>
+  <sql id="Blob_Column_List" >
+    question_error, question_collect
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from user_record
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user_record
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.api.entity.UserRecordWithBLOBs" >
+    insert into user_record (id, user_id, question_error, 
+      question_collect)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{questionError,jdbcType=LONGVARCHAR}, 
+      #{questionCollect,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.api.entity.UserRecordWithBLOBs" >
+    insert into user_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="questionError != null" >
+        question_error,
+      </if>
+      <if test="questionCollect != null" >
+        question_collect,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="questionError != null" >
+        #{questionError,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="questionCollect != null" >
+        #{questionCollect,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.api.entity.UserRecordWithBLOBs" >
+    update user_record
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="questionError != null" >
+        question_error = #{questionError,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="questionCollect != null" >
+        question_collect = #{questionCollect,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.api.entity.UserRecordWithBLOBs" >
+    update user_record
+    set user_id = #{userId,jdbcType=INTEGER},
+      question_error = #{questionError,jdbcType=LONGVARCHAR},
+      question_collect = #{questionCollect,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.api.entity.UserRecord" >
+    update user_record
+    set user_id = #{userId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

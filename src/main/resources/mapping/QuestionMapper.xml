@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.api.dao.QuestionMapper" >
+  <resultMap id="BaseResultMap" type="com.example.api.entity.Question" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="question_level_id" property="questionLevelId" jdbcType="INTEGER" />
+    <result column="question_type_id" property="questionTypeId" jdbcType="INTEGER" />
+    <result column="answer" property="answer" jdbcType="VARCHAR" />
+    <result column="question_difficult_id" property="questionDifficultId" jdbcType="INTEGER" />
+    <result column="picture" property="picture" jdbcType="VARCHAR" />
+    <result column="knowledge_code" property="knowledgeCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.example.api.entity.QuestionWithBLOBs" extends="BaseResultMap" >
+    <result column="question_content" property="questionContent" jdbcType="LONGVARCHAR" />
+    <result column="question_one" property="questionOne" jdbcType="LONGVARCHAR" />
+    <result column="question_two" property="questionTwo" jdbcType="LONGVARCHAR" />
+    <result column="question_three" property="questionThree" jdbcType="LONGVARCHAR" />
+    <result column="question_four" property="questionFour" jdbcType="LONGVARCHAR" />
+    <result column="question_five" property="questionFive" jdbcType="LONGVARCHAR" />
+    <result column="question_six" property="questionSix" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, question_level_id, question_type_id, answer, question_difficult_id, picture, 
+    knowledge_code
+  </sql>
+  <sql id="Blob_Column_List" >
+    question_content, question_one, question_two, question_three, question_four, question_five, 
+    question_six
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from question
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectQuestionByLevelIdAndTypeId" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from question where question_level_id = #{levelId} and question_type_id = #{typeId}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from question
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.api.entity.QuestionWithBLOBs" >
+    insert into question (id, question_level_id, question_type_id, 
+      answer, question_difficult_id, picture, 
+      knowledge_code, question_content, question_one, 
+      question_two, question_three, question_four, 
+      question_five, question_six)
+    values (#{id,jdbcType=INTEGER}, #{questionLevelId,jdbcType=INTEGER}, #{questionTypeId,jdbcType=INTEGER}, 
+      #{answer,jdbcType=VARCHAR}, #{questionDifficultId,jdbcType=INTEGER}, #{picture,jdbcType=VARCHAR}, 
+      #{knowledgeCode,jdbcType=VARCHAR}, #{questionContent,jdbcType=LONGVARCHAR}, #{questionOne,jdbcType=LONGVARCHAR}, 
+      #{questionTwo,jdbcType=LONGVARCHAR}, #{questionThree,jdbcType=LONGVARCHAR}, #{questionFour,jdbcType=LONGVARCHAR}, 
+      #{questionFive,jdbcType=LONGVARCHAR}, #{questionSix,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.api.entity.QuestionWithBLOBs" >
+    insert into question
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="questionLevelId != null" >
+        question_level_id,
+      </if>
+      <if test="questionTypeId != null" >
+        question_type_id,
+      </if>
+      <if test="answer != null" >
+        answer,
+      </if>
+      <if test="questionDifficultId != null" >
+        question_difficult_id,
+      </if>
+      <if test="picture != null" >
+        picture,
+      </if>
+      <if test="knowledgeCode != null" >
+        knowledge_code,
+      </if>
+      <if test="questionContent != null" >
+        question_content,
+      </if>
+      <if test="questionOne != null" >
+        question_one,
+      </if>
+      <if test="questionTwo != null" >
+        question_two,
+      </if>
+      <if test="questionThree != null" >
+        question_three,
+      </if>
+      <if test="questionFour != null" >
+        question_four,
+      </if>
+      <if test="questionFive != null" >
+        question_five,
+      </if>
+      <if test="questionSix != null" >
+        question_six,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="questionLevelId != null" >
+        #{questionLevelId,jdbcType=INTEGER},
+      </if>
+      <if test="questionTypeId != null" >
+        #{questionTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="answer != null" >
+        #{answer,jdbcType=VARCHAR},
+      </if>
+      <if test="questionDifficultId != null" >
+        #{questionDifficultId,jdbcType=INTEGER},
+      </if>
+      <if test="picture != null" >
+        #{picture,jdbcType=VARCHAR},
+      </if>
+      <if test="knowledgeCode != null" >
+        #{knowledgeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="questionContent != null" >
+        #{questionContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="questionOne != null" >
+        #{questionOne,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="questionTwo != null" >
+        #{questionTwo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="questionThree != null" >
+        #{questionThree,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="questionFour != null" >
+        #{questionFour,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="questionFive != null" >
+        #{questionFive,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="questionSix != null" >
+        #{questionSix,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.api.entity.QuestionWithBLOBs" >
+    update question
+    <set >
+      <if test="questionLevelId != null" >
+        question_level_id = #{questionLevelId,jdbcType=INTEGER},
+      </if>
+      <if test="questionTypeId != null" >
+        question_type_id = #{questionTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="answer != null" >
+        answer = #{answer,jdbcType=VARCHAR},
+      </if>
+      <if test="questionDifficultId != null" >
+        question_difficult_id = #{questionDifficultId,jdbcType=INTEGER},
+      </if>
+      <if test="picture != null" >
+        picture = #{picture,jdbcType=VARCHAR},
+      </if>
+      <if test="knowledgeCode != null" >
+        knowledge_code = #{knowledgeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="questionContent != null" >
+        question_content = #{questionContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="questionOne != null" >
+        question_one = #{questionOne,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="questionTwo != null" >
+        question_two = #{questionTwo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="questionThree != null" >
+        question_three = #{questionThree,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="questionFour != null" >
+        question_four = #{questionFour,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="questionFive != null" >
+        question_five = #{questionFive,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="questionSix != null" >
+        question_six = #{questionSix,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.api.entity.QuestionWithBLOBs" >
+    update question
+    set question_level_id = #{questionLevelId,jdbcType=INTEGER},
+      question_type_id = #{questionTypeId,jdbcType=INTEGER},
+      answer = #{answer,jdbcType=VARCHAR},
+      question_difficult_id = #{questionDifficultId,jdbcType=INTEGER},
+      picture = #{picture,jdbcType=VARCHAR},
+      knowledge_code = #{knowledgeCode,jdbcType=VARCHAR},
+      question_content = #{questionContent,jdbcType=LONGVARCHAR},
+      question_one = #{questionOne,jdbcType=LONGVARCHAR},
+      question_two = #{questionTwo,jdbcType=LONGVARCHAR},
+      question_three = #{questionThree,jdbcType=LONGVARCHAR},
+      question_four = #{questionFour,jdbcType=LONGVARCHAR},
+      question_five = #{questionFive,jdbcType=LONGVARCHAR},
+      question_six = #{questionSix,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.api.entity.Question" >
+    update question
+    set question_level_id = #{questionLevelId,jdbcType=INTEGER},
+      question_type_id = #{questionTypeId,jdbcType=INTEGER},
+      answer = #{answer,jdbcType=VARCHAR},
+      question_difficult_id = #{questionDifficultId,jdbcType=INTEGER},
+      picture = #{picture,jdbcType=VARCHAR},
+      knowledge_code = #{knowledgeCode,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
